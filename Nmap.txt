@@ -1,0 +1,74 @@
+nmap -Pn -T4 -F ip check scope 
+
+-sS -sV -Pn
+-oA
+-vv
+-p-
+-sU
+-sT
+
+nmap -sV -sC
+nmap --script http-methods
+nmap --script ssh2-enum-algos  -- algorithms
+nmap --script ssl-enum-ciphers -- TLS v1
+nmap --script ssl-cert                  -- SSL CERT
+nmap -Pn -sC
+nmap -p445 --script smb-vuln-ms17-010
+nmap --script smb-enum-shares.nse -p445 <host>
+nmap -Pn --script smb-security-mode
+nmap -Pn --script ssl-dh-params
+nmap -sV --script=sslv2-drown
+nmap -Pn telnet-encryption
+nmap -Pn http-internal-ip-disclosure
+nmap -Pn -sV --script ssl-poodle 
+sudo nmap -p 21 -sS --script ftp-anon,ftp-syst,tftp-enum,ftp-vsftpd=backdoor {ip}
+nmap -sV --script=nfs-showmount { for RPCBIND }
+
+
+nmap -sU -p 53 --script=dns-random-srcport
+
+RDP
+nmap -p 3389 --script rdp-enum-encryption <ip>
+
+TCP Scan All Ports
+nmap -Pn -A -T4 -sS -sV -vv -p- -iL file_with_target_list.txt -oA <name_for_report>
+
+UDP Scan
+nmap -Pn -sU -n -p- -iL
+
+SMTP
+telnet <target>
+mail from:abc@quinnox.com
+rcpt to:test@quinnox.com
+
+SNMP Port
+snmpwalk -v:2c -c:public -r:10.30.0.120
+snmpwalk -v 2c -c public  10.30.0.120
+
+ike-scan -h
+ike-scan --aggressive --multiline --id=nonexisting_user <server ip>
+
+sudo ike-scan 1.1.1.1 -mM -A --trans=5,2,1,2 --id=groupid --sport=50001 -Phash
+
+java -jar TestSSLServer.jar <ip>
+
+
+nmap -Pn -p- 54.204.145.38 --script http-vulners-regex.nse
+nmap <ip> --script=http-waf-detect -p80,443 -v
+nmap <ip> --script=http-waf-fingerprint
+wafwoof on check 
+
+1) Check Scope /nmap -T4 -F ip
+2) Nessus Scan
+3) Passive Scan 
+         - Censys
+         - Shodan
+         - DnsRecon --------- dnsrecon -d <ip/site> -t std ------------ dnsrecon -d <ip/site> -t zonewalk
+         - Nslookup
+         - Tracert
+         - Whois
+4) Nmap Scan 
+           - TCP Scan All Ports
+             nmap -Pn -A -T4 -sS -sV -vv -p- -iL file_with_target_list.txt -oA <name_for_report>
+           - UDP Scan
+             nmap -Pn -sU -n -p- -iL
